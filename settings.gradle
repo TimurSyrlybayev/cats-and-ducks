@@ -1,0 +1,2 @@
+rootProject.name = "CatsAndDucksApp"
+include ':app'
