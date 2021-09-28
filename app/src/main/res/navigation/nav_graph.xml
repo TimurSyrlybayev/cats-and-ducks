@@ -8,5 +8,5 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.catsandducksapp.view.fragments.MainFragment"
-        android:label="MainFragment" />
+        android:label="@string/main_screen_title" />
 </navigation>

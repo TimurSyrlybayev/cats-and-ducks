@@ -1,14 +1,13 @@
 package com.example.catsandducksapp.view.fragments
 
 import android.animation.ObjectAnimator
+import android.content.res.Configuration
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
@@ -16,7 +15,6 @@ import androidx.lifecycle.Observer
 import com.example.catsandducksapp.databinding.FragmentMainBinding
 import com.example.catsandducksapp.viewmodel.MainViewModel
 import com.squareup.picasso.Picasso
-
 
 class MainFragment : Fragment() {
 
@@ -27,7 +25,7 @@ class MainFragment : Fragment() {
     private lateinit var buttonForDuckImages: Button
     private lateinit var mainLayout: ConstraintLayout
     private lateinit var imageView: ImageView
-    private lateinit var pleaseWaitPlaceholderText: TextView
+    private var currentImageUrl: String? = null
     private var isImageFirstAppearance = true
 
     companion object {
@@ -48,19 +46,41 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
             buttonForCatImages = buttonCats
             buttonForDuckImages = buttonDucks
             mainLayout = mainFragmentLayout
             imageView = imageFrame
-            pleaseWaitPlaceholderText = pleaseWaitPlaceholder
         }
+
+        if (savedInstanceState?.get("url") != null) {
+
+            when (resources.configuration.orientation) {
+                Configuration.ORIENTATION_LANDSCAPE -> {
+                    animate(350)
+                }
+                Configuration.ORIENTATION_PORTRAIT -> {
+                    animate(670)
+                }
+            }
+
+            Picasso
+                .get()
+                .load(
+                    savedInstanceState.getString("url")
+                )
+                .fit()
+                .centerInside()
+                .into(binding.imageFrame)
+            currentImageUrl = savedInstanceState.getString("url")
+        }
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         buttonForCatImages.setOnClickListener {
             val transformationHeight = (mainLayout.height / 2) - BUTTONS_MARGIN
@@ -71,17 +91,18 @@ class MainFragment : Fragment() {
             viewModel.getImage(buttonForCatImages.id).observe(
                 viewLifecycleOwner,
                 Observer { responseString ->
+                    val url = responseString
+                        .replaceAfterLast("webp", "")
+                        .substringAfterLast('"')
                     Picasso
                         .get()
                         .load(
-                            responseString
-                                .replaceAfterLast("webp", "")
-                                .substringAfterLast('"')
+                            url
                         )
                         .fit()
                         .centerInside()
                         .into(binding.imageFrame)
-                    pleaseWaitPlaceholderText.visibility = View.GONE
+                    currentImageUrl = url
                 }
             )
         }
@@ -95,20 +116,28 @@ class MainFragment : Fragment() {
             viewModel.getImage(buttonForDuckImages.id).observe(
                 viewLifecycleOwner,
                 Observer { responseString ->
+                    val url = responseString
+                        .substringBeforeLast('"')
+                        .substringAfterLast('"')
                     Picasso
                         .get()
                         .load(
-                            responseString
-                                .substringBeforeLast('"')
-                                .substringAfterLast('"')
+                            url
                         )
                         .fit()
                         .centerInside()
                         .into(binding.imageFrame)
-                    pleaseWaitPlaceholderText.visibility = View.GONE
+                    currentImageUrl = url
                 }
             )
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        if (currentImageUrl != null) {
+            outState.putString("url", currentImageUrl)
+        }
+        super.onSaveInstanceState(outState)
     }
 
     private fun animate(transformationHeight: Int) {
@@ -154,13 +183,10 @@ class MainFragment : Fragment() {
             duration = 1000
             start()
         }
+    }
 
-        object : CountDownTimer(500, 500) {
-            override fun onTick(millisUntilFinished: Long) {}
-
-            override fun onFinish() {
-                pleaseWaitPlaceholderText.visibility = View.VISIBLE
-            }
-        }.start()
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }
