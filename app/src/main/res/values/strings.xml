@@ -2,4 +2,5 @@
     <string name="app_name">CatsAndDucksApp</string>
     <string name="button_cats">Show Cat</string>
     <string name="button_ducks">Show Duck</string>
+    <string name="please_wait_text">Please wait...</string>
 </resources>

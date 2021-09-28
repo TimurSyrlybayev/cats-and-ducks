@@ -6,10 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
+import javax.inject.Named
 
 private const val TAG = "CatsRetrofitClient"
 
-class CatsRetrofitClient(private val catsApi: CatsAndDucksApi) {
+class CatsRetrofitClient @Inject constructor(@Named("providerApiCats") val catsApi: CatsAndDucksApi) {
 
     fun getCatImage(): LiveData<String> {
         val catResponseLiveData: MutableLiveData<String> = MutableLiveData()

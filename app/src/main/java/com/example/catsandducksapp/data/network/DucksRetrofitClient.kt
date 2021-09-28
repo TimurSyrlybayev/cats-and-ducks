@@ -8,10 +8,12 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import javax.inject.Inject
+import javax.inject.Named
 
 private const val TAG = "DucksRetrofitClient"
 
-class DucksRetrofitClient(val ducksApi: CatsAndDucksApi) {
+class DucksRetrofitClient @Inject constructor(@Named("providerApiDucks") val ducksApi: CatsAndDucksApi) {
 
     fun getDuckImage(): LiveData<String> {
         val duckResponseLiveData: MutableLiveData<String> = MutableLiveData()
