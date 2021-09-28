@@ -10,7 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CatsAndDucksApp">
+        android:theme="@style/Theme.CatsAndDucksApp"
+        android:name=".CatsAndDucksApplication">
         <activity android:name=".view.activity.MainActivity"
             android:theme="@style/Theme.CatsAndDucksApp.NoActionBar">
             <intent-filter>

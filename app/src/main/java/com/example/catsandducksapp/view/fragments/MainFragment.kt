@@ -8,10 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
+import com.example.catsandducksapp.DoubleClickListener
+import com.example.catsandducksapp.data.model.ImageItem
 import com.example.catsandducksapp.databinding.FragmentMainBinding
 import com.example.catsandducksapp.viewmodel.MainViewModel
 import com.squareup.picasso.Picasso
@@ -81,6 +84,23 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        imageView.setOnClickListener(object : DoubleClickListener() {
+            override fun onDoubleClick(v: View?) {
+                if (currentImageUrl != null) {
+                    val imageItem = ImageItem(
+                        0,
+                        currentImageUrl!!
+                    )
+                    viewModel.saveImage(imageItem)
+                    Toast.makeText(
+                        requireActivity().applicationContext,
+                        "Image was saved to favourites.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        })
 
         buttonForCatImages.setOnClickListener {
             val transformationHeight = (mainLayout.height / 2) - BUTTONS_MARGIN
