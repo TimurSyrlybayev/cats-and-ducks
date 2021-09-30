@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -83,11 +84,13 @@ class FavouritesFragment : Fragment() {
         : RecyclerView.ViewHolder(view), View.OnClickListener {
         private lateinit var imageItemInHolder: ImageItem
         private var imageContainer: ImageView
+        private var imageTimeText: TextView
 
         init {
             itemView.findViewById<ImageView>(R.id.deleteIcon).setOnClickListener(this)
             itemView.findViewById<ImageView>(R.id.imageContainer).setOnClickListener(this)
             imageContainer = itemView.findViewById(R.id.imageContainer)
+            imageTimeText = itemView.findViewById(R.id.imageTime)
         }
 
         fun bind(item: ImageItem) {
@@ -100,6 +103,7 @@ class FavouritesFragment : Fragment() {
                 .fit()
                 .centerCrop()
                 .into(imageContainer)
+            imageTimeText.text = item.imageTime
         }
 
         override fun onClick(v: View?) {

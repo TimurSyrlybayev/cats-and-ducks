@@ -27,4 +27,16 @@
         android:tag="unlike"
         app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
 
+    <TextView
+        android:id="@+id/imageTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:gravity="center|bottom"
+        android:textColor="@color/white"
+        android:shadowColor="#000000"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="3"/>
+
 </androidx.cardview.widget.CardView>

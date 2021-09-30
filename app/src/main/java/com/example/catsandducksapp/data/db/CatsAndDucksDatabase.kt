@@ -4,7 +4,6 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.example.catsandducksapp.data.model.DATABASE_VERSION
 import com.example.catsandducksapp.data.model.ImageItem
-import javax.inject.Inject
 
 @Database(entities = [ImageItem::class], version = DATABASE_VERSION)
 abstract class CatsAndDucksDatabase : RoomDatabase() {

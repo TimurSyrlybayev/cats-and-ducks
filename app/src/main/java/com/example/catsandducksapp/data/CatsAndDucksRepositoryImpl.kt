@@ -5,8 +5,6 @@ import com.example.catsandducksapp.R
 import com.example.catsandducksapp.data.db.DaggerCatsAndDucksDatabaseComponent
 import com.example.catsandducksapp.data.model.ImageItem
 import com.example.catsandducksapp.data.network.*
-import retrofit2.Retrofit
-import retrofit2.converter.scalars.ScalarsConverterFactory
 
 class CatsAndDucksRepositoryImpl : CatsAndDucksRepository {
 

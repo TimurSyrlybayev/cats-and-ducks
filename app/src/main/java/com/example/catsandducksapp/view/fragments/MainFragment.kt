@@ -14,13 +14,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import androidx.navigation.NavController
-import androidx.navigation.NavDirections
 import com.example.catsandducksapp.DoubleClickListener
 import com.example.catsandducksapp.data.model.ImageItem
 import com.example.catsandducksapp.databinding.FragmentMainBinding
 import com.example.catsandducksapp.viewmodel.MainViewModel
 import com.squareup.picasso.Picasso
+import java.text.DateFormat
+import java.util.*
 
 class MainFragment : Fragment() {
 
@@ -73,6 +73,9 @@ class MainFragment : Fragment() {
                 Configuration.ORIENTATION_PORTRAIT -> {
                     animate(670)
                 }
+                Configuration.ORIENTATION_UNDEFINED -> {
+                    animate(350)
+                }
             }
 
             Picasso
@@ -97,7 +100,8 @@ class MainFragment : Fragment() {
                 if (currentImageUrl != null) {
                     val imageItem = ImageItem(
                         0,
-                        currentImageUrl!!
+                        currentImageUrl!!,
+                        DateFormat.getDateTimeInstance().format(Date())
                     )
                     viewModel.saveImage(imageItem)
                     Toast.makeText(
@@ -212,12 +216,6 @@ class MainFragment : Fragment() {
         ).apply {
             duration = ANIMATION_DURATION
             start()
-        }
-    }
-
-    private fun NavController.safeNavigate(direction: NavDirections) {
-        currentDestination?.getAction(direction.actionId)?.run {
-            navigate(direction)
         }
     }
 

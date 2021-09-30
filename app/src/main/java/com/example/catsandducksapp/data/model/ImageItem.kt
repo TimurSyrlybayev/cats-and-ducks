@@ -9,6 +9,7 @@ const val DATABASE_NAME = "catsandducksdb.db"
 const val TABLE_NAME = "catsandduckstable"
 const val KEY_ID = "imageid"
 const val KEY_IMAGE_URL = "imageurl"
+const val KEY_IMAGE_ADDED_TIME = "imagetime"
 
 @Entity(tableName = TABLE_NAME)
 data class ImageItem(
@@ -17,4 +18,6 @@ data class ImageItem(
     var id: Long,
     @ColumnInfo(name = KEY_IMAGE_URL)
     var imageUrl: String = "",
+    @ColumnInfo(name = KEY_IMAGE_ADDED_TIME)
+    var imageTime: String = ""
 )

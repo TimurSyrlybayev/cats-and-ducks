@@ -1,14 +1,10 @@
 package com.example.catsandducksapp.data.network
 
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.catsandducksapp.view.activity.MainActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Named
 
