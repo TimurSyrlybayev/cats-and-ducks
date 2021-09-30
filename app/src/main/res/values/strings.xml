@@ -3,4 +3,6 @@
     <string name="button_cats">Show Cat</string>
     <string name="button_ducks">Show Duck</string>
     <string name="main_screen_title">Choose Cat or Duck</string>
+    <string name="favourites_screen_title">Favourites</string>
+    <string name="toolbar_icon_hint">Go to favourites</string>
 </resources>

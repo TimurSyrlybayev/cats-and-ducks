@@ -29,9 +29,9 @@ class MainFragment : Fragment() {
     private lateinit var mainLayout: ConstraintLayout
     private lateinit var imageView: ImageView
     private var currentImageUrl: String? = null
-    private var isImageFirstAppearance = true
 
     companion object {
+        private const val ANIMATION_DURATION = 1000L
         private const val DUCKS_BUTTON_TRANSLATIONX = 64f
         private const val CATS_BUTTON_TRANSLATIONX = -64f
         private const val BUTTONS_MARGIN = 76
@@ -104,9 +104,8 @@ class MainFragment : Fragment() {
 
         buttonForCatImages.setOnClickListener {
             val transformationHeight = (mainLayout.height / 2) - BUTTONS_MARGIN
-            if (isImageFirstAppearance && imageView.drawable == null) {
+            if (imageView.drawable == null) {
                 animate(transformationHeight)
-                isImageFirstAppearance = false
             }
             viewModel.getImage(buttonForCatImages.id).observe(
                 viewLifecycleOwner,
@@ -129,9 +128,8 @@ class MainFragment : Fragment() {
 
         buttonForDuckImages.setOnClickListener {
             val transformationHeight = (mainLayout.height / 2) - BUTTONS_MARGIN
-            if (isImageFirstAppearance && imageView.drawable == null) {
+            if (imageView.drawable == null) {
                 animate(transformationHeight)
-                isImageFirstAppearance = false
             }
             viewModel.getImage(buttonForDuckImages.id).observe(
                 viewLifecycleOwner,
@@ -166,7 +164,7 @@ class MainFragment : Fragment() {
             "translationY",
             transformationHeight.toFloat()
         ).apply {
-            duration = 1000
+            duration = ANIMATION_DURATION
             start()
         }
         ObjectAnimator.ofFloat(
@@ -174,7 +172,7 @@ class MainFragment : Fragment() {
             "translationY",
             transformationHeight.toFloat()
         ).apply {
-            duration = 1000
+            duration = ANIMATION_DURATION
             start()
         }
         ObjectAnimator.ofFloat(
@@ -182,7 +180,7 @@ class MainFragment : Fragment() {
             "translationX",
             CATS_BUTTON_TRANSLATIONX
         ).apply {
-            duration = 1000
+            duration = ANIMATION_DURATION
             start()
         }
         ObjectAnimator.ofFloat(
@@ -190,7 +188,7 @@ class MainFragment : Fragment() {
             "translationX",
             DUCKS_BUTTON_TRANSLATIONX
         ).apply {
-            duration = 1000
+            duration = ANIMATION_DURATION
             start()
         }
 
@@ -200,7 +198,7 @@ class MainFragment : Fragment() {
             IMAGE_VIEW_INITIAL_TRANSPARENCY,
             IMAGE_VIEW_FINAL_TRANSPARENCY
         ).apply {
-            duration = 1000
+            duration = ANIMATION_DURATION
             start()
         }
     }
@@ -209,4 +207,5 @@ class MainFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
+
 }

@@ -8,5 +8,17 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.catsandducksapp.view.fragments.MainFragment"
-        android:label="@string/main_screen_title" />
+        android:label="@string/main_screen_title" >
+        <action
+            android:id="@+id/action_mainFragment_to_favouritesFragment"
+            app:destination="@id/favouritesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.example.catsandducksapp.view.fragments.FavouritesFragment"
+        android:label="@string/favourites_screen_title" >
+        <action
+            android:id="@+id/action_favouritesFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>
