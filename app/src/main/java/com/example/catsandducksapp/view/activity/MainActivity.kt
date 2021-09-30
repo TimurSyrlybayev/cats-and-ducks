@@ -5,12 +5,15 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.navigation.NavController
+import androidx.navigation.NavDirections
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.catsandducksapp.R
 import com.example.catsandducksapp.databinding.ActivityMainBinding
+import com.example.catsandducksapp.view.fragments.MainFragmentDirections
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,7 +47,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.icon_favourites ->
-                navController.navigate(R.id.action_mainFragment_to_favouritesFragment)
+                findNavController(R.id.fragmentContainer).safeNavigate(MainFragmentDirections.actionMainFragmentToFavouritesFragment())
         }
         return super.onOptionsItemSelected(item)
     }
@@ -52,4 +55,11 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+    private fun NavController.safeNavigate(direction: NavDirections) {
+        currentDestination?.getAction(direction.actionId)?.run {
+            navigate(direction)
+        }
+    }
+
 }

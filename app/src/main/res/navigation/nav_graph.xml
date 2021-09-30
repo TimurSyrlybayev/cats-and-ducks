@@ -20,5 +20,19 @@
         <action
             android:id="@+id/action_favouritesFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_favouritesFragment_to_separateImageFragment"
+            app:destination="@id/separateImageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/separateImageFragment"
+        android:name="com.example.catsandducksapp.view.fragments.SeparateImageFragment"
+        android:label="@string/separate_image_screen_title" >
+        <action
+            android:id="@+id/action_separateImageFragment_to_favouritesFragment"
+            app:destination="@id/favouritesFragment" />
+        <argument
+            android:name="imageUrl"
+            app:argType="string" />
     </fragment>
 </navigation>

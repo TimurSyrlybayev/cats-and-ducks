@@ -13,6 +13,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import com.example.catsandducksapp.DoubleClickListener
 import com.example.catsandducksapp.data.model.ImageItem
 import com.example.catsandducksapp.databinding.FragmentMainBinding
@@ -158,6 +160,11 @@ class MainFragment : Fragment() {
         super.onSaveInstanceState(outState)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
     private fun animate(transformationHeight: Int) {
         ObjectAnimator.ofFloat(
             buttonForCatImages,
@@ -203,9 +210,10 @@ class MainFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+    private fun NavController.safeNavigate(direction: NavDirections) {
+        currentDestination?.getAction(direction.actionId)?.run {
+            navigate(direction)
+        }
     }
 
 }

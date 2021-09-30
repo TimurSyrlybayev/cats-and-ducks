@@ -12,6 +12,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -73,6 +75,12 @@ class FavouritesFragment : Fragment() {
         recyclerView.adapter = adapter
     }
 
+    private fun NavController.safeNavigate(direction: NavDirections) {
+        currentDestination?.getAction(direction.actionId)?.run {
+            navigate(direction)
+        }
+    }
+
     private inner class ImageHolder(view: View)
         : RecyclerView.ViewHolder(view), View.OnClickListener {
         private lateinit var imageItemInHolder: ImageItem
@@ -80,6 +88,7 @@ class FavouritesFragment : Fragment() {
 
         init {
             itemView.findViewById<ImageView>(R.id.deleteIcon).setOnClickListener(this)
+            itemView.findViewById<ImageView>(R.id.imageContainer).setOnClickListener(this)
             imageContainer = itemView.findViewById(R.id.imageContainer)
         }
 
@@ -96,20 +105,31 @@ class FavouritesFragment : Fragment() {
         }
 
         override fun onClick(v: View?) {
-            if (absoluteAdapterPosition != -1) {
-                animate()
+            when (v?.tag) {
+                "unlike" -> {
+                    if (absoluteAdapterPosition != -1) {
 
-                object : CountDownTimer(ANIMATION_DURATION, ANIMATION_DURATION) {
-                    override fun onTick(millisUntilFinished: Long) {}
+                        animate()
+                        object : CountDownTimer(ANIMATION_DURATION, ANIMATION_DURATION) {
+                            override fun onTick(millisUntilFinished: Long) {}
 
-                    override fun onFinish() {
-                        list!!.removeAt(absoluteAdapterPosition)
-                        recyclerView.adapter!!.notifyItemRemoved(absoluteAdapterPosition)
-                        viewModel?.deleteImage(imageItemInHolder)
+                            override fun onFinish() {
+                                list!!.removeAt(absoluteAdapterPosition)
+                                recyclerView.adapter!!.notifyItemRemoved(absoluteAdapterPosition)
+                                viewModel?.deleteImage(imageItemInHolder)
+                            }
+                        }.start()
+
                     }
-                }.start()
-
+                }
+                "preview" -> {
+                    findNavController()
+                        .safeNavigate(
+                            FavouritesFragmentDirections.actionFavouritesFragmentToSeparateImageFragment(imageItemInHolder.imageUrl)
+                        )
+                }
             }
+
         }
 
         private fun animate() {
