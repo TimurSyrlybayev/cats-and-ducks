@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">CatsAndDucksApp</string>
+    <string name="button_cats">Show Cat</string>
+    <string name="button_ducks">Show Duck</string>
+    <string name="main_screen_title">Choose Cat or Duck</string>
+    <string name="favourites_screen_title">Favourites</string>
+    <string name="separate_image_screen_title">Image Preview</string>
+    <string name="toolbar_icon_hint">Go to favourites</string>
+    <string name="exit_dialog_title">Are you really want to exit?</string>
+    <string name="exit_dialog_positive_button_text">Yes</string>
+    <string name="exit_dialog_negative_button_text">No</string>
 </resources>
